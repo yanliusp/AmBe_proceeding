@@ -1,5 +1,6 @@
 \documentclass[a4paper]{jpconf}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \begin{document}
 \title{Neutron detection in the SNO+ water phase}
 
@@ -28,13 +29,48 @@ The $\alpha$-particle emitted by $^{241}$Am (half-life of 432.2 years) can be ab
 
 An old SNO experiment AmBe source was identified with a nominal strength of 1683.33 kBq and a neutron rate of 62 Hz.\cite{} The source came doubly encapsulated with black delrin. However, because the source has been used by other experiments, the cleanliness is not clear to SNO+. Therefore, a new encapsulation was designed and fabricated to reduce the risk of contaminating the detector to minimal. Below is a drawing of the new encapsulation. The new encapsulation has passed pressure test and bubble test. A detailed cleaning procedure was performed prior to the source entry into the detector.
 
-SNO+ reuses most of the SNO infrastructure for calibration in the Water phase.\cite{} The Manipulator system, show schematically in Figure \ref{fig1}, contains a \textit{Umbilical Retrieval Mechanism} (URM) which is mounted on the \textit{Universal Interface} (UI). Different calibration sources can therefore be put in different positions inside the detector, when attched to a 100 ft \textit{Umbilical} and \textit{sideropes}. 
+SNO+ reuses most of the SNO infrastructure for calibration in the Water phase.\cite{} The Manipulator system, show schematically in Figure \ref{fig1}, contains a Umbilical Retrieval Mechanism (URM) which is mounted on the Universal Interface (UI). Different calibration sources can therefore be put in different positions inside the detector, when attched to a 100 ft Umbilical and side ropes. 
 
 We deployed the AmBe source in 15 different positions along the two axes: the vertical z-axis and the y-axis which points to the North. This allows detailed studies across the full detector volume. The total AmBe calibration time is around 16 hours.
 
 \section{AmBe data analysis}
 
+Because the AmBe source is an untagged source, traditional analyses put stringent time, position and other cuts to achieve a relatively pure sample. These methods requires estimate of background contamination, which tends to have large systematic uncertainties. The statistics can also be much reduced because of the stringent cuts. Here we present a statistical analysis that avoids the above problems, and also gives a direct measurement of the neutron detection efficiency.
 
+The analysis started by filling a histogram with the time differences between the \textit{prompt} event and the \textit{delayed} event. These \textit{Prompt} events and \textit{delayed} events are selected with a minimum nhits (number of fired PMTs in one event) cut. Three components can be categorized in this histogram:
+
+\begin{itemize}
+\item Fake-Fake event: both \textit{prompt} and \textit{delayed} are backgrounds. The distribution of Fake-Fake events will follow an exponential with a constant of the background rate.
+\item True-Fake event: the \textit{prompt} is the 4.4 MeV $\gamma$, but the \textit{delayed} is background event.
+\item True-True event: the \textit{prompt} is the 4.4 MeV $\gamma$, and the \textit{delayed} is the associated neutron. 
+\end{itemize}
+
+For True-Fake event, if the neutron does not trigger the detector or got removed by the nhits cut, the distribution will be an exponential with a constant of the background rate. However, if the neutron triggers the detector and passed the nhits cut, the following \textit{delayed} event can be either the associated neutron, or a background event but happened to appear before the neutron. Therefore, the probability of the \textit{delayed} event being a background is:
+\begin{equation}
+\begin{aligned}
+\textrm{Prob}_{\gamma - b\textrm{ before N }}(\textrm{t}) & = P \cdot E \cdot R_{2} e^{-R_{2}\textrm{t}} \cdot 1- \int_0^{\textrm{t}} \lambda e^{-\lambda \textrm{t'}}\textrm{dt'} \\
+& = P \cdot E \cdot R_{2} e^{-(R_{2}+\lambda)\textrm{t}}
+\end{aligned}
+\end{equation}
+
+where $P$ is the fraction of true 4.4 MeV $\gamma$s in the \textit{prompt} events, $E$ is the probability of detecting a neutron (neutron detection efficiency), $\lambda$ is the neutron capture constant and $R_2$ is the background rate.
+
+Similarly, for True-True event we have:
+\begin{equation}
+\textrm{Prob}_{\gamma - N\textrm{ before b }}(\textrm{t}) = P \cdot E \cdot \lambda e^{-(R_{2}+\lambda)\textrm{t}}
+\end{equation}
+
+Therefore, we derived the fit function for the time difference histogram:
+
+\begin{equation}
+F(\textrm{t}) = N \cdot R_{1} (P \cdot E \cdot (\lambda+R_{2}) e^{-(\lambda+R_{2}) \textrm{t}} + (1-P \cdot E) \cdot R_{2} e^{-R_{2} \textrm{t}})
+\end{equation}
+
+where $N$ is a normalization factor (livetime $\times$ bin size) and $R_{1}$ is the \textit{prompt} event rate. Figure \ref{fig2} shows the different components of the time difference histogram from a toy MC model.
+
+\section{Analysis results}
+
+We present here the analysis 
 
 
 \ack{}
